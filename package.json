@@ -1,0 +1,27 @@
+{
+  "name": "post-my-api",
+  "version": "0.0.1",
+  "description": "Takes input of postman collection v2.1 and outputs relevant markdown documentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fayaz07/post-my-api.git"
+  },
+  "keywords": [
+    "postman",
+    "api",
+    "markdown"
+  ],
+  "author": "Mohammad Fayaz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fayaz07/post-my-api/issues"
+  },
+  "homepage": "https://github.com/fayaz07/post-my-api#readme",
+  "dependencies": {
+    "stdio": "^2.1.1"
+  }
+}
