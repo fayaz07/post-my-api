@@ -1,6 +1,11 @@
 const constants = require("./constants");
 const c = require("./constants");
 
+module.exports.removeQueryParams = (str) => {
+  var index = str.indexOf("?");
+  return str.substr(0, index);
+};
+
 module.exports.replaceSpacesAndHyphens = (str) => {
   str = str.toString();
   while (str.includes(" ")) {

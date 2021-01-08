@@ -148,10 +148,22 @@ function buildSingleRoute(r, variables) {
   _routesDocs += helpers.h3(r.name);
 
   // write method and
-  var met = helpers.method(
-    requestType,
-    helpers.replaceVariables(r.request.url.raw, variables)
-  );
+  var met;
+  if (requestType == "get") {
+    met = helpers.method(
+      requestType,
+      helpers.replaceVariables(
+        helpers.removeQueryParams(r.request.url.raw),
+        variables
+      )
+    );
+  } else {
+    met = helpers.method(
+      requestType,
+      helpers.replaceVariables(r.request.url.raw, variables)
+    );
+  }
+
   _routesDocs = helpers.appendNL(_routesDocs, met);
 
   // write authentication
@@ -173,20 +185,28 @@ function buildSingleRoute(r, variables) {
 
   // write request body for POST, PATCH
   // supports only raw
-  if (requestType == "post" || requestType == "patch") {
-    _routesDocs =
-      _routesDocs +
-      helpers.appendNL(
-        "Request body:<br/>\n",
-        helpers.code("json", r.request.body.raw)
-      );
+  if (
+    requestType == "post" ||
+    requestType == "patch" ||
+    requestType == "delete"
+  ) {
+    if (r.request.header) {
+      _routesDocs =
+        _routesDocs +
+        helpers.appendNL(
+          "Request headers:<br/>\n",
+          helpers.buildHeaders(r.request.header)
+        );
+    }
 
-    _routesDocs =
-      _routesDocs +
-      helpers.appendNL(
-        "Request headers:<br/>\n",
-        helpers.buildHeaders(r.request.header)
-      );
+    if (r.request.body) {
+      _routesDocs =
+        _routesDocs +
+        helpers.appendNL(
+          "Request body:<br/>\n",
+          helpers.code("json", r.request.body.raw)
+        );
+    }
 
     // there can be n responses
     var responsesRaw = r.response;
@@ -202,6 +222,27 @@ function buildSingleRoute(r, variables) {
       });
     }
   }
+
+  if (requestType == "get") {
+    if (r.request.header) {
+      _routesDocs =
+        _routesDocs +
+        helpers.appendNL(
+          "Request headers:<br/>\n",
+          helpers.buildHeaders(r.request.header)
+        );
+    }
+
+    if (r.request.url.query) {
+      _routesDocs =
+        _routesDocs +
+        helpers.appendNL(
+          "Request query:<br/>\n",
+          helpers.buildHeaders(r.request.url.query)
+        );
+    }
+  }
+
   _routesDocs += helpers.append(constants.newLine, "---", constants.newLine);
   return _routesDocs;
 }

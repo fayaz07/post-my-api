@@ -34,8 +34,8 @@ module.exports.copyAssets = async (outfilePath) => {
 
   bar.setValue(1);
   await fs.copyFile(
-    path.join(assetRoot, "assets/del.png"),
-    path.join(outfilePath, "assets/del.png"),
+    path.join(assetRoot, "assets/delete.png"),
+    path.join(outfilePath, "assets/delete.png"),
     (err) => {
       if (err) throw err;
       // console.log("del.png was copied to destination");
