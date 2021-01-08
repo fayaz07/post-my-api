@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/fayaz07/post-my-api#readme",
   "dependencies": {
+    "mkdirp": "^1.0.4",
     "stdio": "^2.1.1"
   }
 }

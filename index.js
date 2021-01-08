@@ -8,8 +8,8 @@ var opts = stdio.getopt({
   input: { key: "f", description: "location of input file", required: true },
   output: {
     key: "t",
-    description: "location of target file",
-    required: false,
+    description: "location of target folder",
+    required: true,
   },
 });
 
@@ -36,8 +36,8 @@ function getVariables() {
   }
   return collnVariables;
 }
-
-console.log(getVariables());
+getVariables();
+// console.log(getVariables());
 
 // build header of markdown file
 outputContent = getH1(postmanJson.info.name);
@@ -59,13 +59,13 @@ routes.forEach((r) => {
 
   // write authentication
   if (r.request.auth != null) {
-    var auth = "\nAuthentication Type: " + r.request.auth.type;
+    var auth = "Authentication Type: " + r.request.auth.type + "\n";
     _routesDocs = appendNL(_routesDocs, auth);
   }
 
   // TODO: write description
   if (r.request.description != null) {
-    var desc = appendNL("Description: ", r.request.description);
+    var desc = appendNL("Description: ", r.request.description) + "\n";
     _routesDocs = append(_routesDocs, desc);
   }
 
@@ -121,7 +121,7 @@ function buildHeaders(headers) {
 
 outputContent = append(outputContent, _routesDocs);
 
-console.log(outputContent);
+// console.log(outputContent);
 
 function getH1(str) {
   return "# " + str;
@@ -188,3 +188,101 @@ function replaceVariables(oUrl) {
 }
 
 // console.log(replaceVariables("{{baseUrlAPIv1}}/auth/login"));
+
+// create output directory and complete action
+var mkdirp = require("mkdirp");
+
+var outfilePath;
+
+writeContentsToOutputDirectory();
+
+async function writeContentsToOutputDirectory() {
+  if (opts.output) {
+    outfilePath = path.join(opts.args[1], "docs");
+    // console.log(outfilePath);
+    await mkdirp(outfilePath, mkdirp.prototype, function (err) {
+      if (err) console.error(err);
+      else console.log("pow!");
+    });
+
+    await mkdirp(
+      path.join(outfilePath, "assets"),
+      mkdirp.prototype,
+      function (err) {
+        if (err) console.error(err);
+        else console.log("pow!");
+      }
+    );
+
+    // write docs
+    fs.copyFile(
+      path.join(__dirname, "assets/get.png"),
+      path.join(outfilePath, "assets/get.png"),
+      (err) => {
+        if (err) throw err;
+        console.log("get.png was copied to destination");
+      }
+    );
+
+    fs.copyFile(
+      path.join(__dirname, "assets/del.png"),
+      path.join(outfilePath, "assets/del.png"),
+      (err) => {
+        if (err) throw err;
+        console.log("del.png was copied to destination");
+      }
+    );
+
+    fs.copyFile(
+      path.join(__dirname, "assets/head.png"),
+      path.join(outfilePath, "assets/head.png"),
+      (err) => {
+        if (err) throw err;
+        console.log("head.png was copied to destination");
+      }
+    );
+
+    fs.copyFile(
+      path.join(__dirname, "assets/options.png"),
+      path.join(outfilePath, "assets/options.png"),
+      (err) => {
+        if (err) throw err;
+        console.log("options.png was copied to destination");
+      }
+    );
+
+    fs.copyFile(
+      path.join(__dirname, "assets/patch.png"),
+      path.join(outfilePath, "assets/patch.png"),
+      (err) => {
+        if (err) throw err;
+        console.log("patch.png was copied to destination");
+      }
+    );
+
+    fs.copyFile(
+      path.join(__dirname, "assets/post.png"),
+      path.join(outfilePath, "assets/post.png"),
+      (err) => {
+        if (err) throw err;
+        console.log("post.png was copied to destination");
+      }
+    );
+
+    fs.copyFile(
+      path.join(__dirname, "assets/put.png"),
+      path.join(outfilePath, "assets/put.png"),
+      (err) => {
+        if (err) throw err;
+        console.log("put.png was copied to destination");
+      }
+    );
+
+    var writeStream = fs.createWriteStream(path.join(outfilePath, "README.md"));
+    writeStream.write(outputContent);
+    writeStream.end();
+    console.log("Done!");
+  } else {
+    console.log("Specify output file path");
+  }
+}
