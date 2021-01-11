@@ -4,7 +4,9 @@
   "description": "Takes input of postman collection v2.1 and outputs relevant markdown documentation",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier \"./**/*.{js,html,json}\" --write",
+    "lint": "eslint \"./**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,10 @@
   },
   "homepage": "https://github.com/fayaz07/post-my-api#readme",
   "dependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
     "mkdirp": "^1.0.4",
+    "prettier": "^2.2.0",
     "stdio": "^2.1.1"
   }
 }
