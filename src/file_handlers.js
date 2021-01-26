@@ -93,10 +93,17 @@ module.exports.copyAssets = async (outfilePath) => {
 module.exports.createFileAndWrite = (fileName, outfilePath, content) => {
   console.log(fileName);
   console.log(outfilePath);
-  var writeStream = fs.createWriteStream(path.join(outfilePath, fileName));
+  var finalFileName = fileName;
+  if (!fileName.includes("README")) {
+    finalFileName = fileName.toLowerCase();
+  }
+
+  var writeStream = fs.createWriteStream(path.join(outfilePath, finalFileName));
   writeStream.write(content);
   writeStream.end();
-  console.log(`Wrote contents to file at ${path.join(outfilePath, fileName)}`);
+  console.log(
+    `Wrote contents to file at ${path.join(outfilePath, finalFileName)}`
+  );
 };
 
 module.exports.createDirectories = async (outputDir) => {

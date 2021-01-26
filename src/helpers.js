@@ -3,6 +3,9 @@ const c = require("./constants");
 
 module.exports.removeQueryParams = (str) => {
   var index = str.indexOf("?");
+  if (index == -1) {
+    return str;
+  }
   return str.substr(0, index);
 };
 

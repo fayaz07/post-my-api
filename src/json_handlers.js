@@ -20,7 +20,7 @@ module.exports.generateDocs = (json, variables, outputDir) => {
   // console.log(info);
   const routes = buildRoutes(json.info.name, json.item, variables, outputDir);
   fileHandlers.createFileAndWrite(
-    helpers.append(json.info.name, ".md"),
+    helpers.append("README", ".md"),
     outputDir,
     helpers.append(info, constants.newLine, routes)
   );
